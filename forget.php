@@ -4,7 +4,18 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: signin.html');
     exit();
 }
- = "";
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizhub";
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$user_id = $_SESSION['user_id'];
+$message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $current_password = $_POST['current_password'];

@@ -22,7 +22,15 @@ if ($conn->connect_error) {
 $articleMsg = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['upload_article'])) {
     $title = isset($_POST['title']) ? $conn->real_escape_string($_POST['title']) : '';
-   __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+    $summary = isset($_POST['summary']) ? $conn->real_escape_string($_POST['summary']) : '';
+    $content = isset($_POST['content']) ? $conn->real_escape_string($_POST['content']) : '';
+    $featured_image_url = isset($_POST['featured_image_url']) ? trim($_POST['featured_image_url']) : '';
+    $article_id = isset($_POST['article_id']) ? intval($_POST['article_id']) : 0; // 0 = create
+
+    // Handle file upload if present (preferred over URL)
+    $image = '';
+    if (!empty($_FILES['image']) && isset($_FILES['image']['error']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $targetDir = __DIR__ . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
         if (!is_dir($targetDir)) { @mkdir($targetDir, 0755, true); }
         $orig = basename($_FILES['image']['name']);
         $safe = preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $orig);
