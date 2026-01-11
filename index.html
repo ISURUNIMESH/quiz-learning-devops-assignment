@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InfoNix - Quiz/Test Platform</title>
+  <style>
+    /* Reset */
+    * {margin:0; padding:0; box-sizing:border-box;}
+
+    bodplay: flex;
+      flex-direction: column;
+    }
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #00e5ff; /* cyan */
+    }
+    nav {
+      display: flex;
+      gap: 10px;
+    }
+    nav a {
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+      color: #00e5ff;
+    }
+
+    /* Hamburger Menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+    }
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(0,0,0,0.9);
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        padding: 15px;
+        border-radius: 12px;
+        width: 200px;
+      }
+      nav.show {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    .hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: #00e5ff;
+    }
+    .hero p {
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+      color: #e5e7eb;
+    }
+    .hero button {
+      background: linear-gradient(90deg,#00e5ff,#9333ea);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #0f172a; /* dark text */
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .hero button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+    }
+
+    /* Quizzes */
+    .quizzes {
+      padding: 3rem 1rem;
+      text-align: center;
+    }
+    .quizzes h3 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: #00e5ff;
+    }
+    .quiz-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .quiz-card {
+      background: rgba(0,0,0,0.6);
+      border-radius: 1rem;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .quiz-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    }
+    .quiz-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    .quiz-card h4 {
+      font-size: 1.2rem;
+      margin: 0.8rem;
+      color: #00e5ff;
+    }
+    .quiz-card p {
+      font-size: 0.95rem;
+      margin: 0 0.8rem 1rem;
+      color: #e5e7eb;
+    }
+    .auth-btn {
+      display: inline-block;
+      margin: 0 0.8rem 1rem;
+      padding: 0.6rem 1rem;
+      background: linear-gradient(90deg,#00e5ff,#9333ea);
+      border-radius: 0.75rem;
+      text-decoration: none;
+      color: #0f172a;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .auth-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.7);
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>InfoNix</h1>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="navMenu">
+        <a href="#">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="quiz.php">Quizzes</a>
+        <a href="enhanced_leaderboard.php">Leaderboard</a>
+        <a href="news.php">News & Updates</a>
+        <a href="support.html">Support</a>
+        <a href="profile.php">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Welcome to InfoNix</h2>
+      <p>Sharpen your IT skills with interactive quizzes on networking, programming, cybersecurity, and more!</p>
+      <button onclick="location.href='quiz.php'">Explore Quizzes</button>
+    </section>
+
+    <section class="quizzes">
+      <h3>Featured IT Quizzes</h3>
+      <div class="quiz-cards">
+        <div class="quiz-card">
+          <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80" alt="Networking" class="quiz-card-img">
+          <h4>Networking Basics</h4>
+          <p>Test your knowledge of computer networks, protocols, and devices.</p>
+          <a href="quiz1.html" class="auth-btn">Take Quiz</a>
+        </div>
+        <div class="quiz-card">
+          <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80" alt="Programming" class="quiz-card-img">
+          <h4>Programming Fundamentals</h4>
+          <p>Challenge yourself with programming concepts and languages.</p>
+          <a href="quiz2.html" class="auth-btn">Take Quiz</a>
+        </div>
+        <div class="quiz-card">
+          <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80" alt="Cybersecurity" class="quiz-card-img">
+          <h4>Cybersecurity</h4>
+          <p>How much do you know about security, threats, and protection?</p>
+          <a href="http://localhost/x22/take_quiz.php?quiz_id=10" class="auth-btn">Take Quiz</a>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:2rem;">
+        <a href="quiz.php" class="auth-btn">View All Quizzes</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 InfoNix. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

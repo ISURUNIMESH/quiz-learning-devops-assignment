@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="U
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ffdd57;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav a, .dropbtn {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    nav a:hover, .dropbtn:hover {
+      background: #ffdd57;
+      color: #222;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #fff;
+      color: #222;
+      border-radius: 8px;
+      overflow: hidden;
+      min-width: 200px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    }
+    .dropdown-content a {
+      display: block;
+      padding: 0.7rem 1rem;
+      text-decoration: none;
+      color: #222;
+    }
+    .dropdown-content a:hover {
+      background: #2575fc;
+      color: #fff;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Leaderboard */
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .leaderboard-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .leaderboard-container h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #ffdd57;
+    }
+
+    /* Your Rank */
+    .your-rank-card {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      background: linear-gradient(135deg, #ff9966, #ff5e62);
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+    }
+    .your-rank-avatar img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+    }
+    .badge {
+      display: inline-block;
+      margin-top: 0.5rem;
+      background: gold;
+      color: #222;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    /* Table */
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .leaderboard-table th, .leaderboard-table td {
+      padding: 0.8rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .leaderboard-table th {
+      background: rgba(255,255,255,0.15);
+    }
+    .leaderboard-table tr:hover {
+      background: rgba(0,0,0,0.2);
+    }
+    .leaderboard-table img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    /* Stats */
+    .leaderboard-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .stat-card {
+      flex: 1 1 250px;
+      background: linear-gradient(135deg, #43e97b, #38f9d7);
+      padding: 1rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stat-icon {
+      font-size: 2rem;
+    }
+
+    .leaderboard-message {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1.2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0,0,0,0.4);
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .your-rank-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .leaderboard-table th, .leaderboard-table td {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>InfoNix</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <div class="dropdown">
+          <button class="dropbtn">Quizzes ▼</button>
+          <div class="dropdown-content">
+            <a href="quiz1.html">Networking Basics</a>
+            <a href="quiz2.html">Programming Fundamentals</a>
+            <a href="quiz3.html">Cybersecurity</a>
+            <a href="quiz4.html">Hardware</a>
+            <a href="quiz5.html">Software</a>
+            <a href="quiz6.html">Databases</a>
+            <a href="quiz7.html">Web Development</a>
+            <a href="quiz8.html">Operating Systems</a>
+            <a href="quiz9.html">Cloud Computing</a>
+            <a href="quiz10.html">IT History</a>
+            <a href="quiz.php"><b>All Quizzes</b></a>
+          </div>
+        </div>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="news.php">News</a>
+        <a href="support.html">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="leaderboard-container">
+      <h2>Leaderboard</h2>
+      <div class="your-rank-card">
+        <div class="your-rank-avatar">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Your Avatar">
+        </div>
+        <div class="your-rank-info">
+          <h3>Your Rank: <span id="yourRank">5</span></h3>
+          <p>Username: <strong>it_master</strong></p>
+          <p>Score: <strong>780</strong></p>
+          <span class="badge">Quiz Pro</span>
+        </div>
+      </div>
+
+      <h3>Top 10 Rankings</h3>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Avatar</th>
+            <th>Username</th>
+            <th>Score</th>
+            <th>Badge</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardBody">
+          <tr>
+            <td>1</td>
+            <td><img src="https://randomuser.me/api/portraits/women/44.jpg"></td>
+            <td>tech_guru</td>
+            <td>1200</td>
+            <td>🏆 Champion</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><img src="https://randomuser.me/api/portraits/men/45.jpg"></td>
+            <td>coder_king</td>
+            <td>1100</td>
+            <td>🥈 Silver</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="leaderboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-info">
+            <h3>Highest Streak</h3>
+            <p>7 quizzes in a row</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-info">
+            <h3>Most Quizzes Completed</h3>
+            <p>22 quizzes</p>
+          </div>
+        </div>
+      </div>
+      <div class="leaderboard-message">
+        <p>Keep learning and climbing the ranks! 🚀</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 InfoNix. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

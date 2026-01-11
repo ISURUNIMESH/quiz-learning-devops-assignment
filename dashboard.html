@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - InfoNix</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      boxon: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: #f1f5f9;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Header / Navigation */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      padding: 12px 20px;
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #60a5fa;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #e2e8f0;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    /* Hamburger Menu */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: rgba(15,23,42,0.95);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 15px;
+        border-radius: 12px;
+        width: 200px;
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    main {
+      flex: 1;
+      padding: 40px 20px;
+    }
+
+    .dashboard-container {
+      max-width: 1100px;
+      margin: auto;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .dashboard-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #e2e8f0;
+    }
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #2563eb, #9333ea);
+      padding: 20px;
+      border-radius: 18px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px) scale(1.05);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-info h3 {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .stat-info p {
+      font-size: 0.95rem;
+    }
+
+    .dashboard-activity {
+      margin-bottom: 30px;
+    }
+
+    .dashboard-activity h3 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      color: #93c5fd;
+    }
+
+    .dashboard-activity li {
+      list-style: none;
+      background: rgba(255,255,255,0.05);
+      margin: 8px 0;
+      padding: 12px 15px;
+      border-radius: 12px;
+      transition: transform 0.2s ease, background 0.3s;
+    }
+
+    .dashboard-activity li:hover {
+      transform: translateX(8px);
+      background: rgba(255,255,255,0.12);
+    }
+
+    .dashboard-links {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .auth-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, #2563eb, #9333ea);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .auth-btn:hover {
+      transform: scale(1.1);
+      background: linear-gradient(90deg, #9333ea, #2563eb);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: rgba(15,23,42,0.9);
+      color: #e2e8f0;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>InfoNix</h1>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <nav id="navMenu">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="quiz.php">Quizzes</a>
+        <a href="enhanced_leaderboard.php">Leaderboard</a>
+        <a href="news.php">News</a>
+        <a href="support.html">Support</a>
+        <a href="profile.php">Profile</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard-container">
+      <h2>Welcome to Your Dashboard</h2>
+
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-info">
+            <h3 id="totalQuizzes">10</h3>
+            <p>Total Quizzes</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <h3 id="completionRate">80%</h3>
+            <p>Completion Rate</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-info">
+            <h3 id="bestScore">9/10</h3>
+            <p>Best Score</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-info">
+            <h3 id="inProgress">2</h3>
+            <p>Quizzes In Progress</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-activity">
+        <h3>Recent Activity</h3>
+        <ul id="recentActivity">
+          <li>Completed <strong>Networking Basics</strong> - Score: 8/10</li>
+          <li>Completed <strong>Programming Fundamentals</strong> - Score: 9/10</li>
+          <li>Started <strong>Cybersecurity</strong> - In Progress</li>
+          <li>Completed <strong>Hardware</strong> - Score: 7/10</li>
+        </ul>
+      </div>
+
+      <div class="dashboard-links">
+        <a href="quiz.php" class="auth-btn">Go to Quizzes</a>
+        <a href="profile.php" class="auth-btn">View Profile</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 InfoNix. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('show');
+    }
+  </script>
+</body>
+</html>
