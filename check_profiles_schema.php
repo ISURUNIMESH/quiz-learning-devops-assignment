@@ -1,6 +1,8 @@
 <?php
 // Script to check if profiles table has a score column and add if missing
-$sersword = "";
+$servername = "localhost";
+$username = "root";
+$password = "";
 $dbname = "quizhub";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
