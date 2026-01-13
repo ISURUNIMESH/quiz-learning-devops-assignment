@@ -1,15 +1,11 @@
 <?php
 // Script to update profile scores from quiz_attempts
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
+$servername = "sql12.freesqldatabase.com";
+$username = "sql12814273";
+$password = "aw2rwFjSiF";
+$dbname = "sql12814273";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 // Check if score column exists in profiles table
 $result = $conn->query("SHOW COLUMNS FROM profiles LIKE 'score'");

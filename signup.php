@@ -1,19 +1,7 @@
 <?php
 // signup.php: Handles user registration and inserts into MySQL
 
-// Database config
-$servername = "localhost";
-$username = "root";
-$password = ""; // default XAMPP password
-$dbname = "quizhub";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 // Initialize message
 $message = "";

@@ -2,19 +2,7 @@
 // signin.php: Handles user login and session
 session_start();
 
-// Database config
-$servername = "localhost";
-$username = "root";
-$password = ""; // default XAMPP password
-$dbname = "quizhub";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 // Get form data
 $email = isset($_POST['email']) ? $conn->real_escape_string($_POST['email']) : '';

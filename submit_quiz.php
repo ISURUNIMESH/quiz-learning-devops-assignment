@@ -8,14 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die('Invalid request');
 }
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$require = '';
+require_once 'db_connect.php';
 
 $user_id = intval($_SESSION['user_id']);
 $quiz_id = isset($_POST['quiz_id']) ? intval($_POST['quiz_id']) : 0;

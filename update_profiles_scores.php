@@ -1,17 +1,9 @@
 <?php
+require_once 'db_connect.php';
 // update_profiles_scores.php - A maintenance script to update profile scores from quiz_attempts
 // This should be run periodically or after new quiz attempts are added
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Connected via db_connect.php
 
 echo "<h1>Profile Scores Update Utility</h1>";
 

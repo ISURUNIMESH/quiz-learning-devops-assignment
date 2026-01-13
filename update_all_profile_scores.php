@@ -6,15 +6,7 @@ session_start();
 // Allow this script to run for longer tasks
 set_time_limit(300);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 echo "<h1>Profile Score Update Tool</h1>";
 

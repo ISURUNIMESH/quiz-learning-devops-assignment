@@ -8,14 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = intval($_SESSION['user_id']);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 // Total quizzes
 $res = $conn->query("SELECT COUNT(*) AS c FROM quizzes");

@@ -10,14 +10,11 @@ if (!isset($_GET['quiz_id'])) {
 }
 $quiz_id = intval($_GET['quiz_id']);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$servername = "sql12.freesqldatabase.com";
+$username = "sql12814273";
+$password = "aw2rwFjSiF";
+$dbname = "sql12814273";
+    require_once 'db_connect.php';
 
 // Fetch quiz
 $res = $conn->query("SELECT id,title,description,time_limit_seconds,points_per_question,max_time_bonus FROM quizzes WHERE id = " . $quiz_id);

@@ -1,13 +1,10 @@
 <?php
 // article.php: Display full article from the database
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$servername = "sql12.freesqldatabase.com";
+$username = "sql12814273";
+$password = "aw2rwFjSiF";
+$dbname = "sql12814273";
+        require_once 'db_connect.php';
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $article = $conn->query("SELECT * FROM articles WHERE id = $id LIMIT 1");
 ?>

@@ -6,14 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 $user_id = $_SESSION['user_id'];
 $name = isset($_POST['name']) ? $conn->real_escape_string($_POST['name']) : '';

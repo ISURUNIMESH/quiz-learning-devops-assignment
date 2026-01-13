@@ -6,14 +6,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 $quizzes = [];
 $res = $conn->query("SELECT q.id,q.title,q.description,q.time_limit_seconds,q.points_per_question,q.max_time_bonus,q.featured_image, (SELECT COUNT(*) FROM questions t WHERE t.quiz_id = q.id) AS question_count FROM quizzes q ORDER BY q.id ASC");

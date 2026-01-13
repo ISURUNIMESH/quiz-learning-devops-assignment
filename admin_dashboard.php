@@ -9,14 +9,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['role']) || $_SESSION['role
 }
 
 // Database config
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 // Handle article upload (create or update)
 $articleMsg = "";
@@ -541,6 +534,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // Quiz creation helper (dynamic question blocks)
 document.addEventListener('DOMContentLoaded', function(){
     const addBtn = document.getElementById('addQuestionBtn');
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+require_once 'db_connect.php';
     const container = document.getElementById('questionsContainer');
     let qIndex = 0;
 

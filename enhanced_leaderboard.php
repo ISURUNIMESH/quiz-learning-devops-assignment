@@ -7,12 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$require = '';
+require_once 'db_connect.php';
 
 $user_id = intval($_SESSION['user_id']);
 

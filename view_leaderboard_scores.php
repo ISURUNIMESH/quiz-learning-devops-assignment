@@ -2,15 +2,7 @@
 // view_leaderboard_scores.php - A diagnostic page to view all scores in the system
 // This page shows scores from both profiles table and calculated from quiz_attempts
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once 'db_connect.php';
 
 echo "<h1>InfoNix Leaderboard Scores</h1>";
 

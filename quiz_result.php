@@ -8,12 +8,11 @@ if (!isset($_GET['attempt_id'])) die('Attempt not specified');
 $attempt_id = intval($_GET['attempt_id']);
 $user_id = intval($_SESSION['user_id']);
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "quizhub";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) die('DB connect error');
+$servername = "sql12.freesqldatabase.com";
+$username = "sql12814273";
+$password = "aw2rwFjSiF";
+$dbname = "sql12814273";
+    require_once 'db_connect.php';
 
 $att = $conn->query("SELECT qa.*, q.title FROM quiz_attempts qa LEFT JOIN quizzes q ON qa.quiz_id=q.id WHERE qa.id=".$attempt_id);
 if (!$att || $att->num_rows==0) die('Attempt not found');
