@@ -1,13 +1,32 @@
 <?php
 // article.php: Display full article from the database
-$servername = "sql12.freesqldatabase.com";
-$username = "sql12814273";
-$password = "aw2rwFjSiF";
-$dbname = "sql12814273";
-        require_once 'db_connect.php';
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$article = $conn->query("SELECT * FROM articles WHERE id = $id LIMIT 1");
+
+require_once 'db_connect.php'; // USE ONLY THIS CONNECTION
+
+// Validate ID
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($id <= 0) {
+    die("Invalid article ID.");
+}
+
+// Prepare statement (PHP-only safe fix)
+$stmt = $conn->prepare("SELECT * FROM articles WHERE id = ? LIMIT 1");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
+if ($result && $result->num_rows === 1) {
+    $article = $result->fetch_assoc();
+} else {
+    die("Article not found.");
+}
+
+$stmt->close();
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

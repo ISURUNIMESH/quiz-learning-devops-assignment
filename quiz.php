@@ -1,6 +1,6 @@
 <?php
-// quiz.php: Restrict access to signed-in users
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.html');
     exit();
@@ -9,14 +9,28 @@ if (!isset($_SESSION['user_id'])) {
 require_once 'db_connect.php';
 
 $quizzes = [];
-$res = $conn->query("SELECT q.id,q.title,q.description,q.time_limit_seconds,q.points_per_question,q.max_time_bonus,q.featured_image, (SELECT COUNT(*) FROM questions t WHERE t.quiz_id = q.id) AS question_count FROM quizzes q ORDER BY q.id ASC");
+
+$sql = "
+    SELECT 
+        q.id,
+        q.title,
+        q.description,
+        (SELECT COUNT(*) FROM questions t WHERE t.quiz_id = q.id) AS question_count
+    FROM quizzes q
+    ORDER BY q.id ASC
+";
+
+$res = $conn->query($sql);
+
 if ($res && $res->num_rows > 0) {
     while ($row = $res->fetch_assoc()) {
         $quizzes[] = $row;
     }
 }
+
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
