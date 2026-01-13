@@ -1,15 +1,51 @@
 <?php
 // news.php: Display article summaries from the database
+
 $servername = "sql12.freesqldatabase.com";
-$username = "sql12814273";
-$password = "aw2rwFjSiF";
-$dbname = "sql12814273";
+$username   = "sql12814273";
+$password   = "aw2rwFjSiF";
+$dbname     = "sql12814273";
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-$articles = $conn->query("SELECT id, title, summary, image, date FROM articles ORDER BY date DESC LIMIT 12");
+
+$articles = [];
+
+/*
+  Check if the `articles` table exists BEFORE querying it
+  This prevents fatal errors when the table is missing
+*/
+$tableCheck = $conn->query("
+    SELECT 1 
+    FROM information_schema.tables 
+    WHERE table_schema = '$dbname' 
+      AND table_name = 'articles'
+    LIMIT 1
+");
+
+if ($tableCheck && $tableCheck->num_rows === 1) {
+
+    // Table exists → safe to query
+    $result = $conn->query("
+        SELECT * 
+        FROM articles 
+        ORDER BY id DESC 
+        LIMIT 12
+    ");
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $articles[] = $row;
+        }
+    }
+}
+
+// If table does NOT exist → $articles remains empty (NO CRASH)
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

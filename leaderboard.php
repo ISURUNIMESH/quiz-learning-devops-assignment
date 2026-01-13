@@ -1,11 +1,45 @@
 <?php
-// leaderboard.php: Restrict access to signed-in users
+// enhanced_leaderboard.php: Restrict access to signed-in users
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.html');
     exit();
 }
+
+require_once 'db_connect.php';
+
+$leaderboard = [];
+
+/*
+  We CANNOT use `profiles` table because it does not exist.
+  So we build leaderboard using EXISTING tables:
+  - users
+  - quiz_attempts
+*/
+
+$sql = "
+    SELECT 
+        u.name,
+        SUM(qa.score) AS total_score
+    FROM users u
+    JOIN quiz_attempts qa ON qa.user_id = u.id
+    GROUP BY u.id
+    ORDER BY total_score DESC
+    LIMIT 10
+";
+
+$result = $conn->query($sql);
+
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        $leaderboard[] = $row;
+    }
+}
+
+$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

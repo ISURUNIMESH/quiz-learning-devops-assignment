@@ -1,43 +1,42 @@
 <?php
 // profile.php: Restrict access to signed-in users
 session_start();
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.html');
     exit();
 }
+
 require_once 'db_connect.php';
-$user_id = $_SESSION['user_id'];
+
+$user_id = (int) $_SESSION['user_id'];
 $clearMsg = "";
 
-// Handle clear profile request - deletes the current user's profile row
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['clear_profile'])) {
-    $stmt = $conn->prepare("DELETE FROM profiles WHERE user_id = ?");
-    if ($stmt) {
-        $stmt->bind_param("i", $user_id);
-        if ($stmt->execute()) {
-            $clearMsg = "Profile cleared successfully.";
-        } else {
-            $clearMsg = "Error clearing profile: " . htmlspecialchars($stmt->error);
-        }
-        $stmt->close();
-    } else {
-        $clearMsg = "Error preparing delete statement: " . htmlspecialchars($conn->error);
-    }
-    // reset local profile variables so UI shows cleared state
-    $profile = ["name"=>"","age"=>"","bio"=>"","profile_pic"=>""];
-    $gender = $profession = $institution = '';
-}
+/*
+  Since the `profiles` table DOES NOT EXIST,
+  we DO NOT query or delete from it at all.
+  Instead, we load basic user info from `users`.
+*/
 
-$profile = ["name"=>"","age"=>"","bio"=>"","profile_pic"=>""];
-$result = $conn->query("SELECT * FROM profiles WHERE user_id = $user_id");
-if ($result && $result->num_rows > 0) {
+$stmt = $conn->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$profile = [
+    "name" => "",
+    "email" => "",
+    "role" => ""
+];
+
+if ($result && $result->num_rows === 1) {
     $profile = $result->fetch_assoc();
 }
-$gender = isset($profile['gender']) ? $profile['gender'] : '';
-$profession = isset($profile['profession']) ? $profile['profession'] : '';
-$institution = isset($profile['institution']) ? $profile['institution'] : '';
+
+$stmt->close();
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
