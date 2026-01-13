@@ -1,5 +1,5 @@
 <?php
-// enhanced_leaderboard.php - SAFE version (NO profiles table)
+// enhanced_leaderboard.php - FINAL SAFE VERSION (no warnings, no profiles)
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -7,16 +7,27 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// Hide warnings in production
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 0);
+
 require_once 'db_connect.php';
 
 $user_id = (int) $_SESSION['user_id'];
 
-// ---------------------------
-// Current user info
-// ---------------------------
-$userName = 'User';
-$userAvatar = 'assets/default_avatar.png';
+/* ---------------------------
+   Helper for safe HTML output
+--------------------------- */
+function e($v) {
+    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+}
+
+/* ---------------------------
+   Current user info
+--------------------------- */
+$userName  = 'User';
 $userScore = 0;
+$userRank  = 'N/A';
 
 $stmt = $conn->prepare("
     SELECT u.name, COALESCE(SUM(qa.score), 0) AS total_score
@@ -32,14 +43,14 @@ $res = $stmt->get_result();
 
 if ($res && $res->num_rows === 1) {
     $row = $res->fetch_assoc();
-    $userName = htmlspecialchars($row['name']);
+    $userName  = $row['name'];
     $userScore = (int)$row['total_score'];
 }
 $stmt->close();
 
-// ---------------------------
-// Leaderboard
-// ---------------------------
+/* ---------------------------
+   Leaderboard
+--------------------------- */
 $leaderboardUsers = [];
 
 $sql = "
@@ -55,8 +66,8 @@ $sql = "
 ";
 
 $result = $conn->query($sql);
-$rank = 1;
 
+$position = 1;
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $score = (int)$row['score'];
@@ -67,25 +78,35 @@ if ($result) {
         elseif ($score >= 250) { $badge = 'pro'; $badgeTitle = 'Quiz Pro'; }
         else { $badge = 'beginner'; $badgeTitle = 'Quiz Beginner'; }
 
+        if ((int)$row['user_id'] === $user_id) {
+            $userRank = $position;
+        }
+
         $leaderboardUsers[] = [
-            'rank' => $rank,
-            'user_id' => (int)$row['user_id'],
-            'name' => htmlspecialchars($row['name']),
-            'profile_pic' => 'assets/default_avatar.png',
-            'score' => $score,
-            'badge' => $badge,
-            'badgeTitle' => $badgeTitle,
+            'position'      => $position,        // FIXED
+            'rank'          => $position,
+            'user_id'       => (int)$row['user_id'],
+            'name'          => $row['name'],
+            'profile_pic'   => 'assets/default_avatar.png',
+            'score'         => $score,
+            'profession'    => 'N/A',             // FIXED
+            'badge'         => $badge,
+            'badgeTitle'    => $badgeTitle,
             'isCurrentUser' => ((int)$row['user_id'] === $user_id)
         ];
-        $rank++;
+
+        $position++;
     }
 }
 
-// Top 3
+/* ---------------------------
+   Top 3 users
+--------------------------- */
 $topUsers = array_slice($leaderboardUsers, 0, 3);
 
 $conn->close();
 ?>
+
 
 
 <!DOCTYPE html>
