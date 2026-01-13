@@ -1,5 +1,5 @@
 <?php
-// enhanced_leaderboard.php - Colorful, responsive leaderboard
+// enhanced_leaderboard.php - SAFE version (NO profiles table)
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -7,41 +7,60 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$require = '';
 require_once 'db_connect.php';
 
-$user_id = intval($_SESSION['user_id']);
+$user_id = (int) $_SESSION['user_id'];
 
-// Get current user
-$userQuery = "SELECT name, profile_pic, COALESCE(score, 0) AS score, profession 
-             FROM profiles WHERE user_id = $user_id";
-$userResult = $conn->query($userQuery);
+// ---------------------------
+// Current user info
+// ---------------------------
 $userName = 'User';
 $userAvatar = 'assets/default_avatar.png';
 $userScore = 0;
-$userProfession = '';
-if ($userResult && $userResult->num_rows > 0) {
-    $userRow = $userResult->fetch_assoc();
-    $userName = htmlspecialchars($userRow['name'] ?? $userName);
-    $userAvatar = htmlspecialchars($userRow['profile_pic'] ?? $userAvatar);
-    $userScore = (int)($userRow['score'] ?? 0);
-    $userProfession = htmlspecialchars($userRow['profession'] ?? '');
+
+$stmt = $conn->prepare("
+    SELECT u.name, COALESCE(SUM(qa.score), 0) AS total_score
+    FROM users u
+    LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+    WHERE u.id = ?
+    GROUP BY u.id
+    LIMIT 1
+");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$res = $stmt->get_result();
+
+if ($res && $res->num_rows === 1) {
+    $row = $res->fetch_assoc();
+    $userName = htmlspecialchars($row['name']);
+    $userScore = (int)$row['total_score'];
 }
+$stmt->close();
 
-// Rank
-$rankQuery = "SELECT COUNT(*) + 1 AS rank FROM profiles WHERE score > $userScore";
-$rankResult = $conn->query($rankQuery);
-$userRank = 'N/A';
-if ($rankResult && $rankResult->num_rows > 0) $userRank = (int)$rankResult->fetch_assoc()['rank'];
-
+// ---------------------------
 // Leaderboard
-$leaderboardQuery = "SELECT user_id, name, profile_pic, score, profession FROM profiles ORDER BY score DESC, user_id ASC LIMIT 50";
-$leaderboardResult = $conn->query($leaderboardQuery);
+// ---------------------------
 $leaderboardUsers = [];
+
+$sql = "
+    SELECT 
+        u.id AS user_id,
+        u.name,
+        COALESCE(SUM(qa.score), 0) AS score
+    FROM users u
+    LEFT JOIN quiz_attempts qa ON qa.user_id = u.id
+    GROUP BY u.id
+    ORDER BY score DESC, u.id ASC
+    LIMIT 50
+";
+
+$result = $conn->query($sql);
 $rank = 1;
-if ($leaderboardResult && $leaderboardResult->num_rows > 0) {
-    while ($row = $leaderboardResult->fetch_assoc()) {
+
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
         $score = (int)$row['score'];
+
         if ($score >= 1000) { $badge = 'grandmaster'; $badgeTitle = 'Quiz Grandmaster'; }
         elseif ($score >= 750) { $badge = 'master'; $badgeTitle = 'Quiz Master'; }
         elseif ($score >= 500) { $badge = 'expert'; $badgeTitle = 'Quiz Expert'; }
@@ -51,10 +70,9 @@ if ($leaderboardResult && $leaderboardResult->num_rows > 0) {
         $leaderboardUsers[] = [
             'rank' => $rank,
             'user_id' => (int)$row['user_id'],
-            'name' => htmlspecialchars($row['name'] ?? 'User'),
-            'profile_pic' => htmlspecialchars($row['profile_pic'] ?? ''),
+            'name' => htmlspecialchars($row['name']),
+            'profile_pic' => 'assets/default_avatar.png',
             'score' => $score,
-            'profession' => htmlspecialchars($row['profession'] ?? ''),
             'badge' => $badge,
             'badgeTitle' => $badgeTitle,
             'isCurrentUser' => ((int)$row['user_id'] === $user_id)
@@ -63,25 +81,13 @@ if ($leaderboardResult && $leaderboardResult->num_rows > 0) {
     }
 }
 
-// Top 3 users
-$topUsersQuery = "SELECT user_id, name, profile_pic, score FROM profiles ORDER BY score DESC LIMIT 3";
-$topUsersResult = $conn->query($topUsersQuery);
-$topUsers = [];
-if ($topUsersResult && $topUsersResult->num_rows > 0) {
-    $pos = 1;
-    while ($row = $topUsersResult->fetch_assoc()) {
-        $topUsers[] = [
-            'position' => $pos,
-            'user_id' => (int)$row['user_id'],
-            'name' => htmlspecialchars($row['name'] ?? 'User'),
-            'profile_pic' => htmlspecialchars($row['profile_pic'] ?? ''),
-            'score' => (int)$row['score'],
-            'isCurrentUser' => ((int)$row['user_id'] === $user_id)
-        ];
-        $pos++;
-    }
-}
+// Top 3
+$topUsers = array_slice($leaderboardUsers, 0, 3);
+
+$conn->close();
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

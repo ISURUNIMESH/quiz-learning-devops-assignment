@@ -1,41 +1,54 @@
 <?php
-// profile.php: Restrict access to signed-in users
-session_start();
+// profile.php - SAFE PHP-only profile page
 
+session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: signin.html');
     exit();
 }
 
+// Disable warnings/notices on page (IMPORTANT)
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 0);
+
 require_once 'db_connect.php';
 
 $user_id = (int) $_SESSION['user_id'];
-$clearMsg = "";
 
 /*
-  Since the `profiles` table DOES NOT EXIST,
-  we DO NOT query or delete from it at all.
-  Instead, we load basic user info from `users`.
+  profiles table DOES NOT exist.
+  We simulate profile data safely using users table only.
 */
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE id = ? LIMIT 1");
+// Default safe values (VERY IMPORTANT)
+$name        = '';
+$age         = '';
+$bio         = '';
+$gender      = '';
+$profession  = '';
+$institution = '';
+$profile_pic = 'https://randomuser.me/api/portraits/men/32.jpg';
+
+// Load user basic info
+$stmt = $conn->prepare("SELECT name FROM users WHERE id = ? LIMIT 1");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$result = $stmt->get_result();
+$res = $stmt->get_result();
 
-$profile = [
-    "name" => "",
-    "email" => "",
-    "role" => ""
-];
-
-if ($result && $result->num_rows === 1) {
-    $profile = $result->fetch_assoc();
+if ($res && $res->num_rows === 1) {
+    $row  = $res->fetch_assoc();
+    $name = $row['name'] ?? '';
 }
 
 $stmt->close();
 $conn->close();
+
+// Helper for safe output
+function e($value) {
+    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
