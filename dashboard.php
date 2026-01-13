@@ -7,7 +7,18 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = intval($_SESSION['user_id']);
- $conn->query("SELECT COUNT(*) AS c FROM quizzes");
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizhub";
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Total quizzes
+$res = $conn->query("SELECT COUNT(*) AS c FROM quizzes");
 $totalQuizzes = $res ? intval($res->fetch_assoc()['c']) : 0;
 
 // Completed quizzes (distinct quizzes finished by user)

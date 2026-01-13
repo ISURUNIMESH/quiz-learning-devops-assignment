@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support - InfoNix</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Background */
+    body.quiz-bg {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #9333ea, #f43f5e);
+      background-size: 300% 300%;
+      animation: gradientMove 12s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
+      padding: 1rem 0;
+      border-bottom: 2px solid rgba(255,255,255,0.1);
+    }
+
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Support Section */
+    .support-modern {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      flex: 1;
+    }
+
+    .support-modern-left, .support-modern-right {
+      background: rgba(255,255,255,0.15);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .support-modern-left h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .support-desc {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .support-faqs h3 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      color: #ffdd57;
+    }
+
+    .support-faqs ul {
+      list-style: none;
+    }
+
+    .support-faqs li {
+      margin-bottom: 1rem;
+      background: rgba(255,255,255,0.1);
+      padding: 0.8rem;
+      border-radius: 8px;
+    }
+
+    /* Chatbot */
+    .chatbot-container h3 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      color: #38bdf8;
+    }
+
+    .chatbot-messages {
+      height: 250px;
+      background: rgba(0,0,0,0.25);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .message {
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      max-width: 75%;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .user-message {
+      align-self: flex-end;
+      background: #3b82f6;
+      color: #fff;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .chatbot-form {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chatbot-form input {
+      flex: 1;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .auth-btn {
+      background: linear-gradient(45deg, #3b82f6, #9333ea);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .auth-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem 0;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ddd;
+      border-top: 2px solid rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+<body class="quiz-bg">
+  <header>
+    <div class="container">
+      <h1>InfoNix</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="quiz.php">Quizzes</a>
+        <a href="enhanced_leaderboard.php">Leaderboard</a>
+        <a href="news.php">News & Updates</a>
+        <a href="support.html">Support</a>
+      </nav>
+      <a href="profile.php" class="signin-icon" title="Profile">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4" fill="#3b82f6"/>
+          <path d="M4 20c0-3.3137 3.134-6 7-6s7 2.6863 7 6" fill="#3b82f6"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+  <main>
+    <section class="support-modern">
+      <div class="support-modern-left">
+        <h2>Support Center</h2>
+        <p class="support-desc">Need help? Our support team is here for you. Browse FAQs, contact us, or chat with our bot for instant answers.</p>
+        <div class="support-faqs">
+          <h3>Frequently Asked Questions</h3>
+          <ul>
+            <li><strong>How do I reset my password?</strong><br>Click "Sign In" and use the "Forgot Password" link.</li>
+            <li><strong>How can I track my quiz progress?</strong><br>Visit your Dashboard for stats and recent activity.</li>
+            <li><strong>How do I contact support?</strong><br>Use the chat below or email us at <a href="mailto:support@infonix.com">support@infonix.com</a>.</li>
+            <li><strong>Can I contribute quizzes?</strong><br>Yes! Contact us to join our creator community.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="support-modern-right">
+        <div class="chatbot-container">
+          <h3>InfoNix Chatbot</h3>
+          <div id="chatbotMessages" class="chatbot-messages"></div>
+          <form id="chatbotForm" class="chatbot-form" autocomplete="off">
+            <input type="text" id="chatbotInput" placeholder="Type your question..." required />
+            <button type="submit" class="auth-btn">Send</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 InfoNix. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById("chatbotForm");
+    const input = document.getElementById("chatbotInput");
+    const messages = document.getElementById("chatbotMessages");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      // Display user message
+      const userMsg = document.createElement("div");
+      userMsg.classList.add("message", "user-message");
+      userMsg.textContent = userText;
+      messages.appendChild(userMsg);
+
+      // Fake bot response
+      const botMsg = document.createElement("div");
+      botMsg.classList.add("message", "bot-message");
+      botMsg.textContent = "Thanks for your question! Our support team will get back to you soon.";
+      messages.appendChild(botMsg);
+
+      messages.scrollTop = messages.scrollHeight;
+      input.value = "";
+    });
+  </script>
+</body>
+</html>

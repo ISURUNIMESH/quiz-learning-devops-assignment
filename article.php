@@ -1,4 +1,9 @@
-<ame = "quizhub";
+<?php
+// article.php: Display full article from the database
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizhub";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

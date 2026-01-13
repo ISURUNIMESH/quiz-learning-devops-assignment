@@ -7,7 +7,17 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$serery = "SELECT name, profile_pic, COALESCE(score, 0) AS score, profession 
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "quizhub";
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+
+$user_id = intval($_SESSION['user_id']);
+
+// Get current user
+$userQuery = "SELECT name, profile_pic, COALESCE(score, 0) AS score, profession 
              FROM profiles WHERE user_id = $user_id";
 $userResult = $conn->query($userQuery);
 $userName = 'User';

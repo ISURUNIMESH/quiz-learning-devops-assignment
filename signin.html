@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In - InfoNix</title>
+  <style>
+    body.auth-bg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f6f9;
+      font-family: Arial, sans-serif;
+    }
+    .auth-container { width: 100%; max-width: 400px; }
+    .auth-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+    input {
+      width: 100%; padding: 0.7rem; border: 1px solid #ccc;
+      border-radius: 8px; outline: none;
+    }
+    input:focus { border-color: #4a90e2; }
+    .auth-btn {
+      width: 100%; padding: 0.8rem;
+      background: #4a90e2; color: #fff;
+      font-size: 1rem; border: none; border-radius: 8px;
+      cursor: pointer; transition: 0.3s;
+    }
+    .auth-btn:hover { background: #357ABD; }
+    .auth-link { text-align: center; margin-top: 1rem; }
+    .auth-link a { color: #4a90e2; text-decoration: none; }
+    .auth-link a:hover { text-decoration: underline; }
+    .error-msg {
+      color: red; font-size: 0.85em; margin-top: 4px; display: block;
+    }
+    .forgot-password {
+      text-align: right;
+      margin-top: -0.8rem;
+      margin-bottom: 1rem;
+    }
+    .forgot-password a {
+      color: #4a90e2;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .forgot-password a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body class="auth-bg">
+  <div class="auth-container">
+    <div class="auth-card">
+      <h2>Sign In</h2>
+      <form id="signinForm" action="signin.php" method="POST" onsubmit="return validateSigninForm()">
+        <div class="form-group">
+          <label for="signinEmail">Email</label>
+          <input type="email" id="signinEmail" name="email" required placeholder="Enter your email">
+          <small id="signinEmailError" class="error-msg"></small>
+        </div>
+        <div class="form-group">
+          <label for="signinPassword">Password</label>
+          <input type="password" id="signinPassword" name="password" required placeholder="Enter your password">
+          <small id="signinPasswordError" class="error-msg"></small>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="forgot-password">
+          <a href="forgot_password.html">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="auth-btn">Sign In</button>
+      </form>
+      <p class="auth-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+    </div>
+  </div>
+
+  <script>
+    function validateSigninForm() {
+      let isValid = true;
+      const email = document.getElementById("signinEmail").value.trim();
+      const password = document.getElementById("signinPassword").value.trim();
+      const emailError = document.getElementById("signinEmailError");
+      const passwordError = document.getElementById("signinPasswordError");
+      emailError.textContent = "";
+      passwordError.textContent = "";
+
+      // Email validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        emailError.textContent = "❌ Invalid email format.";
+        isValid = false;
+      }
+
+      // Password validation
+      if (password.length < 6) {
+        passwordError.textContent = "❌ Password must be at least 6 characters long.";
+        isValid = false;
+      }
+
+      return isValid;
+    }
+    <p style="margin-top: 20px; text-align:center;">
+ <a href="forget.php">Forgot Password
+  </a>
+</p>
+
+  </script>
+</body>
+</html>
+
