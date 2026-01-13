@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $messageType = "error";
       } else {
         // Insert user with role
-        $sql = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$hashed_password', '$role')";
+        $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
         if ($conn->query($sql) === TRUE) {
           $message = "✅ Registration successful! Redirecting to Sign In...";
           $messageType = "success";
