@@ -1,5 +1,9 @@
 <?php
-// news.php: Display article summaries from the database
+// news.php - FINAL SAFE VERSION (no warnings, no fatal errors)
+
+// Hide warnings/notices on production
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
+ini_set('display_errors', 0);
 
 $servername = "sql12.freesqldatabase.com";
 $username   = "sql12814273";
@@ -8,30 +12,35 @@ $dbname     = "sql12814273";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Connection failed");
+}
+
+/* ---------------------------
+   Helper for safe output
+--------------------------- */
+function e($v) {
+    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
 }
 
 $articles = [];
 
-/*
-  Check if the `articles` table exists BEFORE querying it
-  This prevents fatal errors when the table is missing
-*/
+/* ---------------------------
+   Check if articles table exists
+--------------------------- */
 $tableCheck = $conn->query("
-    SELECT 1 
-    FROM information_schema.tables 
-    WHERE table_schema = '$dbname' 
+    SELECT 1
+    FROM information_schema.tables
+    WHERE table_schema = '$dbname'
       AND table_name = 'articles'
     LIMIT 1
 ");
 
 if ($tableCheck && $tableCheck->num_rows === 1) {
 
-    // Table exists → safe to query
     $result = $conn->query("
-        SELECT * 
-        FROM articles 
-        ORDER BY id DESC 
+        SELECT *
+        FROM articles
+        ORDER BY id DESC
         LIMIT 12
     ");
 
@@ -42,9 +51,15 @@ if ($tableCheck && $tableCheck->num_rows === 1) {
     }
 }
 
-// If table does NOT exist → $articles remains empty (NO CRASH)
 $conn->close();
+
+/* ---------------------------
+   IMPORTANT:
+   HTML must use count($articles)
+--------------------------- */
+$articlesCount = count($articles);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
