@@ -39,5 +39,7 @@ Debugged SQL, API, and server-side logic issues
 
 ## Build status badges
 
-![CI Pipeline](https://github.com/ISURUNIMESH/quiz-learning-devops-assignment/workflows/CI%20Pipeline/badge.svg)
-![Deploy](https://github.com/ISURUNIMESH/quiz-learning-devops-assignment/workflows/Deploy%20to%20Production/badge.svg)
+## Build status badges
+
+![CI Pipeline](https://github.com/isurunimesh/quiz-learning-devops-assignment/actions/workflows/ci.yml/badge.svg)
+![Deploy](https://github.com/isurunimesh/quiz-learning-devops-assignment/actions/workflows/deploy.yml/badge.svg)
