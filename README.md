@@ -43,3 +43,12 @@ Debugged SQL, API, and server-side logic issues
 
 ![CI Pipeline](https://github.com/isurunimesh/quiz-learning-devops-assignment/actions/workflows/ci.yml/badge.svg)
 ![Deploy](https://github.com/isurunimesh/quiz-learning-devops-assignment/actions/workflows/deploy.yml/badge.svg)
+
+
+
+How to run project
+
+1. Install Docker
+2. git clone repo
+3. docker-compose up --build
+4. open localhost:8080
